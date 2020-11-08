@@ -1,0 +1,461 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/assets/css/just-the-docs-default.css">
+    <script type="text/javascript" src="/assets/js/vendor/lunr.min.js"></script>
+  <script type="text/javascript" src="/assets/js/just-the-docs.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Causal Forest | LOST</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Causal Forest" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:site_name" content="LOST" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"/Machine_Learning/causal_forest.html","headline":"Causal Forest","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "AMS" } } });
+  </script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML">
+  </script>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="svg-link" viewbox="0 0 24 24">
+      <title>Link</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+      </svg>
+    </symbol>
+    <symbol id="svg-search" viewbox="0 0 24 24">
+      <title>Search</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+        <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </symbol>
+    <symbol id="svg-menu" viewbox="0 0 24 24">
+      <title>Menu</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+        <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </symbol>
+    <symbol id="svg-arrow-right" viewbox="0 0 24 24">
+      <title>Expand</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </symbol>
+    <symbol id="svg-doc" viewbox="0 0 24 24">
+      <title>Document</title>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
+        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline>
+      </svg>
+    </symbol>
+  </svg>
+  <div class="side-bar">
+    <div class="site-header">
+      <a href="/" class="site-title lh-tight">
+  LOST
+</a>
+      <a href="#" id="menu-button" class="site-button">
+        <svg viewbox="0 0 24 24" class="icon"><use xlink:href="#svg-menu"></use></svg>
+      </a>
+    </div>
+    <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
+      <ul class="nav-list">
+<li class="nav-list-item">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Data_Manipulation/data_manipulation.html" class="nav-list-link">Data Manipulation</a><ul class="nav-list ">
+<li class="nav-list-item "><a href="/Data_Manipulation/collapse_a_data_set.html" class="nav-list-link">Collapse a Data Set</a></li>
+<li class="nav-list-item ">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Data_Manipulation/Combining_Datasets/combining_datasets_overview.html" class="nav-list-link">Combining Datasets</a><ul class="nav-list">
+<li class="nav-list-item ">
+                        <a href="/Data_Manipulation/Combining_Datasets/combining_datasets_vertical_combination.html" class="nav-list-link">Vertical Combination</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Data_Manipulation/Combining_Datasets/combining_datasets_horizontal_merge_deterministic.html" class="nav-list-link">Horizontal Combination (Deterministic)</a>
+                      </li>
+</ul>
+</li>
+<li class="nav-list-item "><a href="/Data_Manipulation/Creating_Dummy_Variables/creating_dummy_variables.html" class="nav-list-link">Creating Dummy Variables</a></li>
+<li class="nav-list-item "><a href="/Data_Manipulation/determine_the_observation_level_of_a_data_set.html" class="nav-list-link">Determine the Observation Level of a Data Set</a></li>
+<li class="nav-list-item ">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Data_Manipulation/Reshaping/reshape.html" class="nav-list-link">Reshaping Data</a><ul class="nav-list">
+<li class="nav-list-item ">
+                        <a href="/Data_Manipulation/Reshaping/reshape_panel_data_from_wide_to_long.html" class="nav-list-link">Reshape Panel Data from Wide to Long</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Data_Manipulation/Reshaping/reshape_panel_data_from_long_to_wide.html" class="nav-list-link">Reshape Panel Data from Long to Wide</a>
+                      </li>
+</ul>
+</li>
+<li class="nav-list-item "><a href="/Data_Manipulation/rowwise_calculations.html" class="nav-list-link">Rowwise Calculations</a></li>
+</ul>
+</li>
+<li class="nav-list-item">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Geo-Spatial/Geo-spatial.html" class="nav-list-link">Geo-Spatial</a><ul class="nav-list ">
+<li class="nav-list-item "><a href="/Geo-Spatial/choropleths.html" class="nav-list-link">Choropleths</a></li>
+<li class="nav-list-item "><a href="/Geo-Spatial/geocoding.html" class="nav-list-link">Geocoding</a></li>
+<li class="nav-list-item "><a href="/Geo-Spatial/merging_shape_files.html" class="nav-list-link">Merging Shape Files</a></li>
+<li class="nav-list-item "><a href="/Geo-Spatial/spatial_joins.html" class="nav-list-link">Spatial Joins</a></li>
+</ul>
+</li>
+<li class="nav-list-item active">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Machine_Learning/Machine_Learning.html" class="nav-list-link">Machine Learning</a><ul class="nav-list ">
+<li class="nav-list-item "><a href="/Machine_Learning/artificial_neural_network.html" class="nav-list-link">Artificial Neural Network</a></li>
+<li class="nav-list-item "><a href="/Machine_Learning/boosted_regression_trees.html" class="nav-list-link">Boosted Regression Trees</a></li>
+<li class="nav-list-item  active"><a href="/Machine_Learning/causal_forest.html" class="nav-list-link active">Causal Forest</a></li>
+<li class="nav-list-item "><a href="/Machine_Learning/decision_trees.html" class="nav-list-link">Decision Trees</a></li>
+<li class="nav-list-item "><a href="/Machine_Learning/penalized_regression.html" class="nav-list-link">Penalized Regression</a></li>
+<li class="nav-list-item "><a href="/Machine_Learning/random_forest.html" class="nav-list-link">Random Forest</a></li>
+</ul>
+</li>
+<li class="nav-list-item">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Model_Estimation/Model_Estimation.html" class="nav-list-link">Model Estimation</a><ul class="nav-list ">
+<li class="nav-list-item ">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Model_Estimation/OLS/OLS.html" class="nav-list-link">Ordinary Least Squares</a><ul class="nav-list">
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/OLS/simple_linear_regression.html" class="nav-list-link">Simple Linear Regression</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/OLS/interaction_terms_and_polynomials.html" class="nav-list-link">Interaction Terms and Polynomials</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/OLS/fixed_effects_in_linear_regression.html" class="nav-list-link">Fixed Effects in Linear Regression</a>
+                      </li>
+</ul>
+</li>
+<li class="nav-list-item ">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Model_Estimation/GLS/GLS.html" class="nav-list-link">Generalised Least Squares</a><ul class="nav-list">
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/GLS/heckman_correction_model.html" class="nav-list-link">Heckman Correction Model</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/GLS/logit_model.html" class="nav-list-link">Logit Model</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/GLS/mcfaddens_choice_model.html" class="nav-list-link">McFadden's Choice Model (Alternative-Specific Conditional Logit)</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/GLS/probit_model.html" class="nav-list-link">Probit Model</a>
+                      </li>
+</ul>
+</li>
+<li class="nav-list-item ">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Model_Estimation/Multilevel_Models/Multilevel_Models.html" class="nav-list-link">Multilevel Models</a><ul class="nav-list">
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/Multilevel_Models/linear_mixed_effects_regression.html" class="nav-list-link">Linear Mixed-Effects Regression</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/Multilevel_Models/random_mixed_effects_estimation.html" class="nav-list-link">Random/Mixed Effects in Linear Regression</a>
+                      </li>
+</ul>
+</li>
+<li class="nav-list-item ">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Model_Estimation/Research_Design/Research_Design.html" class="nav-list-link">Research Design</a><ul class="nav-list">
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/Research_Design/instrumental_variables.html" class="nav-list-link">Instrumental Variables</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/Research_Design/regression_discontinuity_design.html" class="nav-list-link">Regression Discontinuity Design</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/Research_Design/two_by_two_difference_in_difference.html" class="nav-list-link">2x2 Difference in Difference</a>
+                      </li>
+</ul>
+</li>
+<li class="nav-list-item ">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Model_Estimation/Statistical_Inference/Statistical_Inference.html" class="nav-list-link">Statistical Inference</a><ul class="nav-list">
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/Statistical_Inference/linear_hypothesis_tests.html" class="nav-list-link">Linear Hypothesis Tests</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Model_Estimation/Statistical_Inference/Nonstandard_Errors/nonstandard_errors.html" class="nav-list-link">Nonstandard Errors</a>
+                      </li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-list-item">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Presentation/Presentation.html" class="nav-list-link">Presentation</a><ul class="nav-list ">
+<li class="nav-list-item ">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Presentation/Figures/Figures.html" class="nav-list-link">Figures</a><ul class="nav-list">
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/Scatterplots.html" class="nav-list-link">Scatterplots</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/Styling_Scatterplots.html" class="nav-list-link">Styling Scatterplots</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/bar_graphs.html" class="nav-list-link">Bar Graphs</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/density_plots.html" class="nav-list-link">Density Plots</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/faceted_graphs.html" class="nav-list-link">Faceted Graphs</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/heatmap_colored_correlation_matrix.html" class="nav-list-link">Heatmap Colored Correlation Matrix</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/histograms.html" class="nav-list-link">Histograms</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/line_graph_with_labels_at_the_beginning_or_end.html" class="nav-list-link">Line Graph with Labels at the Beginning or End of Lines</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/line_graphs.html" class="nav-list-link">Line Graphs</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/marginal_effects_plots_for_interactions_with_continuous_variables.html" class="nav-list-link">Marginal Effects Plots for Interactions with Continuous Variables</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/scatterplot_by_group_on_shared_axes.html" class="nav-list-link">Scatterplot by Group on Shared Axes</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/styling_line_graphs.html" class="nav-list-link">Styling Line Graphs</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Figures/formatting_graph_legends.html" class="nav-list-link">Formatting Graph Legends</a>
+                      </li>
+</ul>
+</li>
+<li class="nav-list-item ">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Presentation/Tables/Tables.html" class="nav-list-link">Tables</a><ul class="nav-list">
+<li class="nav-list-item ">
+                        <a href="/Presentation/Tables/Balance_Tables.html" class="nav-list-link">Balance Tables</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Tables/Regression_Tables.html" class="nav-list-link">Regression Tables</a>
+                      </li>
+<li class="nav-list-item ">
+                        <a href="/Presentation/Tables/Summary_Statistics_Tables.html" class="nav-list-link">Summary Statistics Tables</a>
+                      </li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-list-item">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Time_Series/Time_Series.html" class="nav-list-link">Time Series</a><ul class="nav-list ">
+<li class="nav-list-item "><a href="/Time_Series/AR-models.html" class="nav-list-link">AR Models</a></li>
+<li class="nav-list-item "><a href="/Time_Series/ARCH_Model.html" class="nav-list-link">ARCH Model</a></li>
+<li class="nav-list-item "><a href="/Time_Series/ARMA-models.html" class="nav-list-link">ARMA Models</a></li>
+<li class="nav-list-item "><a href="/Time_Series/GARCH_Model.html" class="nav-list-link">GARCH Model</a></li>
+<li class="nav-list-item "><a href="/Time_Series/Granger_Causality.html" class="nav-list-link">Granger Causality</a></li>
+<li class="nav-list-item "><a href="/Time_Series/creating_time_series_dataset.html" class="nav-list-link">Creating Time Series Dataset</a></li>
+</ul>
+</li>
+<li class="nav-list-item">
+<a href="#" class="nav-list-expander"><svg viewbox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a><a href="/Other/Other.html" class="nav-list-link">Other</a><ul class="nav-list ">
+<li class="nav-list-item "><a href="/Other/create_a_conda_package.html" class="nav-list-link">Create a Conda Package (Python)</a></li>
+<li class="nav-list-item "><a href="/Other/get_a_list_of_files.html" class="nav-list-link">Get a List of Files</a></li>
+<li class="nav-list-item "><a href="/Other/import_a_foreign_data_file.html" class="nav-list-link">Import a Foreign Data File</a></li>
+</ul>
+</li>
+<li class="nav-list-item"><a href="/Desired_Nonexistent_Pages/desired_nonexistent_pages.html" class="nav-list-link">Desired Nonexistent Pages</a></li>
+<li class="nav-list-item"><a href="/Contributing/Contributing.html" class="nav-list-link">Contributing</a></li>
+<li class="nav-list-item"><a href="/" class="nav-list-link">Home</a></li>
+</ul>
+    </nav>
+    <footer class="site-footer">
+      This site uses <a href="https://github.com/pmarsceill/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.
+    </footer>
+  </div>
+  <div class="main" id="top">
+    <div id="main-header" class="main-header">
+        <div class="search">
+          <div class="search-input-wrap">
+            <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search LOST" aria-label="Search LOST" autocomplete="off">
+            <label for="search-input" class="search-label"><svg viewbox="0 0 24 24" class="search-icon"><use xlink:href="#svg-search"></use></svg></label>
+          </div>
+          <div id="search-results" class="search-results"></div>
+        </div>
+    </div>
+    <div id="main-content-wrap" class="main-content-wrap">
+          <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+            <ol class="breadcrumb-nav-list">
+                <li class="breadcrumb-nav-list-item"><a href="/Machine_Learning/Machine_Learning.html">Machine Learning</a></li>
+              <li class="breadcrumb-nav-list-item"><span>Causal Forest</span></li>
+            </ol>
+          </nav>
+      <div id="main-content" class="main-content" role="main">
+          <h1 id="causal-forest">
+          <a href="#causal-forest" aria-labelledby="causal-forest" class="anchor-heading"><svg viewbox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Causal Forest
+      </h1>
+<p>Causal forests are a causal inference learning method that are an extension of <a href="/Machine_Learning/random_forest.html">Random Forests</a>. In random forests, the data is repeatedly split in order to minimize prediction error of an outcome variable. Causal forests are built similarly, except that instead of minimizing prediction error, data is split in order to maximize the difference across splits in the relationship between an outcome variable and a “treatment” variable. This is intended to uncover how treatment effects vary across a sample.</p>
+<p>For more information, see <a href="https://www.markhw.com/blog/causalforestintro">Explicitly Optimizing on Causal Effects via the Causal Forest</a>.</p>
+      <h2 id="keep-in-mind">
+          <a href="#keep-in-mind" aria-labelledby="keep-in-mind" class="anchor-heading"><svg viewbox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Keep in Mind
+      </h2>
+<ul>
+  <li>Causal forests simply uncover heterogeneity in a causal effect, they do not by themselves make the effect causal. A standard causal forest must assume that the assignment to treatment is exogenous, as it might be in a randomized controlled trial. Some extensions of causal forest may allow for covariate adjustment or for instrumental variables. See your causal forest package’s documentation to see if it has an option for ways of identifying the causal effect when treatment is not exogenous such as conditional adjustment or “instrumental forest”.</li>
+  <li>If using causal forest to estimate confidence intervals for the effects, in addition to the effects itself, it is recommended that you increase the number of trees generated considerably.</li>
+</ul>
+      <h2 id="also-consider">
+          <a href="#also-consider" aria-labelledby="also-consider" class="anchor-heading"><svg viewbox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Also Consider
+      </h2>
+<ul>
+  <li>Your intuition for how causal forest works can be based on a thorough understanding of <a href="/Machine_Learning/random_forest.html">Random Forests</a>, for which materials are much more widely available.</li>
+</ul>
+      <h1 id="implementations">
+          <a href="#implementations" aria-labelledby="implementations" class="anchor-heading"><svg viewbox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Implementations
+      </h1>
+      <h2 id="python">
+          <a href="#python" aria-labelledby="python" class="anchor-heading"><svg viewbox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Python
+      </h2>
+<p>The <a href="https://econml.azurewebsites.net/spec/spec.html"><strong>econml</strong></a> package from Microsoft provides a range of causal machine learning functions, including deep instrumental variables, doubly robust learning, double machine learning, and <a href="https://econml.azurewebsites.net/spec/estimation/forest.html#causalforest-aka-forest-double-machine-learning">causal forests</a>. As in the R example below, we will download some crime data and look at the effect of one variable (‘pctymle’, the % of young males, assumed to be exogenous) on another (‘crmrte’, the crime rate).</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Use "pip install econml" on the command line to install the package
+</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<span class="kn">from</span> <span class="nn">econml.ortho_forest</span> <span class="kn">import</span> <span class="n">ContinuousTreatmentOrthoForest</span> <span class="k">as</span> <span class="n">CausalForest</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'https://vincentarelbundock.github.io/Rdatasets/csv/Ecdat/Crime.csv'</span><span class="p">)</span>
+
+<span class="c1"># Set the categorical variables:
+</span><span class="n">cat_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s">'year'</span><span class="p">,</span> <span class="s">'region'</span><span class="p">,</span> <span class="s">'smsa'</span><span class="p">]</span>
+<span class="c1"># Transform the categorical variables to dummies and add them back in
+</span><span class="n">xf</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">cat_vars</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">.</span><span class="n">drop</span><span class="p">(</span><span class="n">cat_vars</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">xf</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">cat_var_dummy_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xf</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span>
+
+<span class="n">regressors</span> <span class="o">=</span> <span class="p">[</span><span class="s">'prbarr'</span><span class="p">,</span> <span class="s">'prbconv'</span><span class="p">,</span> <span class="s">'prbpris'</span><span class="p">,</span>
+              <span class="s">'avgsen'</span><span class="p">,</span> <span class="s">'polpc'</span><span class="p">,</span> <span class="s">'density'</span><span class="p">,</span> <span class="s">'taxpc'</span><span class="p">,</span>
+              <span class="s">'pctmin'</span><span class="p">,</span> <span class="s">'wcon'</span><span class="p">]</span>
+<span class="c1"># Add in the dummy names to the list of regressors
+</span><span class="n">regressors</span> <span class="o">=</span> <span class="n">regressors</span> <span class="o">+</span> <span class="n">cat_var_dummy_names</span>
+
+<span class="c1"># Split into train and test
+</span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="c1"># Estimate causal forest
+</span><span class="n">estimator</span> <span class="o">=</span> <span class="n">CausalForest</span><span class="p">(</span><span class="n">n_trees</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                         <span class="n">model_T</span><span class="o">=</span><span class="n">DecisionTreeRegressor</span><span class="p">(),</span>
+                         <span class="n">model_Y</span><span class="o">=</span><span class="n">DecisionTreeRegressor</span><span class="p">())</span>
+<span class="n">estimator</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s">'crmrte'</span><span class="p">],</span>
+              <span class="n">train</span><span class="p">[</span><span class="s">'pctymle'</span><span class="p">],</span>
+              <span class="n">train</span><span class="p">[</span><span class="n">regressors</span><span class="p">],</span>
+              <span class="n">inference</span><span class="o">=</span><span class="s">'blb'</span><span class="p">)</span>
+<span class="n">effects_train</span> <span class="o">=</span> <span class="n">estimator</span><span class="p">.</span><span class="n">effect</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">regressors</span><span class="p">])</span>
+<span class="n">effects_test</span> <span class="o">=</span> <span class="n">estimator</span><span class="p">.</span><span class="n">effect</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">regressors</span><span class="p">])</span>
+<span class="n">conf_intrvl</span> <span class="o">=</span> <span class="n">estimator</span><span class="p">.</span><span class="n">effect_interval</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="n">regressors</span><span class="p">])</span>
+</code></pre></div></div>
+      <h2 id="r">
+          <a href="#r" aria-labelledby="r" class="anchor-heading"><svg viewbox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> R
+      </h2>
+<p>The <strong>grf</strong> package has a <code class="language-plaintext highlighter-rouge">causal_forest</code> function that can be used to estimate causal forests. Additional functions afterwards can estimate, for example, the <code class="language-plaintext highlighter-rouge">average_treatment_effect()</code>. See <code class="language-plaintext highlighter-rouge">help(package='grf')</code> for more options.</p>
+<div class="language-R highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># If necessary</span><span class="w">
+</span><span class="c1"># install.packages('grf')</span><span class="w">
+</span><span class="n">library</span><span class="p">(</span><span class="n">grf</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Get crime data from North Carolina</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">read.csv</span><span class="p">(</span><span class="s1">'https://vincentarelbundock.github.io/Rdatasets/csv/Ecdat/Crime.csv'</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># It's not, but let's pretend that "percentage of young males" pctymle is exogenous</span><span class="w">
+</span><span class="c1"># and see how the effect of it on crmrte varies across the other measured covariates</span><span class="w">
+
+</span><span class="c1"># Make sure the data has no missing values. Here I'm dropping observations</span><span class="w">
+</span><span class="c1"># with missing values in any variable, but you can limit the data first to just</span><span class="w">
+</span><span class="c1"># variables used in analysis to only drop observations with missing values in those variables</span><span class="w">
+</span><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">complete.cases</span><span class="p">(</span><span class="n">df</span><span class="p">),]</span><span class="w">
+
+</span><span class="c1"># Let's use training and holdout data</span><span class="w">
+</span><span class="n">split</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">sample</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w"> </span><span class="n">nrow</span><span class="p">(</span><span class="n">df</span><span class="p">),</span><span class="w"> </span><span class="n">replace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="w">
+</span><span class="n">df.train</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="n">split</span><span class="p">,]</span><span class="w">
+</span><span class="n">df.hold</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="n">split</span><span class="p">,]</span><span class="w">
+
+</span><span class="c1"># Isolate the "treatment" as a matrix</span><span class="w">
+</span><span class="n">pctymle</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">df.train</span><span class="o">$</span><span class="n">pctymle</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Isolate the outcome as a matrix</span><span class="w">
+</span><span class="n">crmrte</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">as.matrix</span><span class="p">(</span><span class="n">df.train</span><span class="o">$</span><span class="n">crmrte</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Use model.matrix to get our predictor matrix</span><span class="w">
+</span><span class="c1"># We might also consider adding interaction terms</span><span class="w">
+</span><span class="n">X</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="n">lm</span><span class="p">(</span><span class="n">crmrte</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="m">-1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">prbarr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">prbconv</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">prbpris</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+                       </span><span class="n">avgsen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">polpc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">density</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">taxpc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">region</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">smsa</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+                       </span><span class="n">pctmin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wcon</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df.train</span><span class="p">))</span><span class="w">
+
+</span><span class="c1"># Estimate causal forest</span><span class="w">
+</span><span class="n">cf</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">causal_forest</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">crmrte</span><span class="p">,</span><span class="n">pctymle</span><span class="p">)</span><span class="w">
+
+</span><span class="c1"># Get predicted causal effects for each observation</span><span class="w">
+</span><span class="n">effects</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">predict</span><span class="p">(</span><span class="n">cf</span><span class="p">)</span><span class="o">$</span><span class="n">predictions</span><span class="w">
+
+</span><span class="c1"># And use holdout X's for prediction</span><span class="w">
+</span><span class="n">X.hold</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">model.matrix</span><span class="p">(</span><span class="n">lm</span><span class="p">(</span><span class="n">crmrte</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="m">-1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">prbarr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">prbconv</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">prbpris</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+                       </span><span class="n">avgsen</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">polpc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">density</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">taxpc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">region</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="n">smsa</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> 
+                       </span><span class="n">pctmin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">wcon</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df.hold</span><span class="p">))</span><span class="w">
+</span><span class="c1"># And get effects</span><span class="w">
+</span><span class="n">effects.hold</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">predict</span><span class="p">(</span><span class="n">cf</span><span class="p">,</span><span class="w"> </span><span class="n">X.hold</span><span class="p">)</span><span class="o">$</span><span class="n">predictions</span><span class="w">
+
+</span><span class="c1"># Get standard errors for the holding data predictions - we probably should have set the num.trees</span><span class="w">
+</span><span class="c1"># option in causal_forest higher before doing this, perhaps to 5000.</span><span class="w">
+</span><span class="n">SEs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">sqrt</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="n">cf</span><span class="p">,</span><span class="w"> </span><span class="n">X.hold</span><span class="p">,</span><span class="w"> </span><span class="n">estimate.variance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span><span class="o">$</span><span class="n">variance.estimates</span><span class="p">)</span><span class="w">
+</span></code></pre></div></div>
+      <h1 id="stata">
+          <a href="#stata" aria-labelledby="stata" class="anchor-heading"><svg viewbox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Stata
+      </h1>
+<p>The <strong>MLRtime</strong> package allows the <code class="language-plaintext highlighter-rouge">causal_forest</code> function in the R <strong>grf</strong> package to be run from inside of Stata. This does require that R be installed.</p>
+<div class="language-stata highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">* If necessary, install MLRtime
+* net install MLRtime, from("https://raw.githubusercontent.com/NickCH-K/MLRtime/master/")
+* Then, before use, install R from R-project.org
+* and run the MLRtimesetup function
+* MLRtimesetup, go
+
+* Start a fresh R session
+</span><span class="err">rcall</span> <span class="err">clear
+</span><span class="c1">
+* Get crime data from North Carolina
+</span><span class="err">import</span> <span class="err">delimited</span> <span class="err">using</span> <span class="s2">"https://vincentarelbundock.github.io/Rdatasets/csv/Ecdat/Crime.csv"</span><span class="err">,</span> <span class="err">clear
+</span><span class="c1">
+* Turn character variables numeric so we can use them
+</span><span class="err">encode</span> <span class="err">region,</span> <span class="err">g(regionn)
+encode</span> <span class="err">smsa,</span> <span class="err">g(smsan)
+drop</span> <span class="err">region</span> <span class="err">smsa
+</span><span class="c1">
+* It's not, but let's pretend that "percentage of young males" pctymle is exogenous
+* and see how the effect of it on crmrte varies across the other measured covariates
+
+* Let's use training and holdout data by sending our holdout data to R with rcall
+</span><span class="err">g</span> <span class="err">split</span> <span class="o">=</span> <span class="err">runiform()</span> <span class="o">&gt;</span> <span class="err">.5
+preserve
+</span><span class="c1">* Keep the predictors from the holding data, send it over, so later we can make an X matrix to predict with
+</span><span class="err">keep</span> <span class="err">if</span> <span class="err">split</span> <span class="o">==</span> <span class="err">0
+keep</span> <span class="err">year</span> <span class="err">prbarr</span> <span class="err">prbconv</span> <span class="err">prbpris</span> <span class="err">avgsen</span> <span class="err">polpc</span> <span class="err">density</span> <span class="err">taxpc</span> <span class="err">regionn</span> <span class="err">smsan</span> <span class="err">pctmin</span> <span class="err">wcon
+</span><span class="c1">* R needs that data pre-processed! So using the same variables as in the main model, process the variables
+</span><span class="err">fvrevar</span> <span class="err">year</span> <span class="err">prbarr</span> <span class="err">prbconv</span> <span class="err">prbpris</span> <span class="err">avgsen</span> <span class="err">polpc</span> <span class="err">density</span> <span class="err">taxpc</span> <span class="err">i.regionn</span> <span class="err">i.smsan</span> <span class="err">pctmin</span> <span class="err">wcon
+keep</span> <span class="p">`</span><span class="si">r(varlist)</span><span class="p">'</span><span class="err">
+</span><span class="c1">* Then send the data to R
+</span><span class="err">rcall:</span> <span class="err">df.hold</span> <span class="o">&lt;-</span> <span class="err">st.data()
+restore
+</span><span class="c1">* Now go back to just the training data
+
+* Run causal_forest, storing the effect predictions for the training data in the "effects" variable
+* the SEs of those effects in effectSE
+* And the effects and SEs for the holdout data in matrices called effects_hold and effectSE_hold
+</span><span class="err">causal_forest</span> <span class="err">crmrte</span> <span class="err">pctymle</span> <span class="err">year</span> <span class="err">prbarr</span> <span class="err">prbconv</span> <span class="err">prbpris</span> <span class="err">avgsen</span> <span class="err">polpc</span> <span class="err">density</span> <span class="err">taxpc</span> <span class="err">i.regionn</span> <span class="err">i.smsan</span> <span class="err">pctmin</span> <span class="err">wcon,</span> <span class="err">pred(effects)</span> <span class="err">varreturn(effectSE</span> <span class="o">=</span> <span class="err">sqrt(predict(CF,</span> <span class="err">X,</span> <span class="err">estimate.variance</span> <span class="o">=</span> <span class="err">TRUE)@@variance.estimates))</span> <span class="err">return(effects_hold</span> <span class="o">=</span> <span class="err">predict(CF,</span> <span class="err">as.matrix(df.hold))@@predictions;</span> <span class="err">effectSE_hold</span> <span class="o">=</span> <span class="err">sqrt(predict(CF,</span> <span class="err">as.matrix(df.hold),</span> <span class="err">estimate.variance</span> <span class="o">=</span> <span class="err">TRUE)@@variance.estimates))
+</span><span class="c1">
+* Look at the holdout effects predicted
+</span><span class="err">di</span> <span class="s2">"`r(effects_hold)'"</span><span class="err">
+</span></code></pre></div></div>
+          <hr>
+          <footer>
+              <div class="d-flex mt-2">
+                  <p class="text-small text-grey-dk-000 mb-0">
+                    <a href="https://github.com/lost-stats/lost-stats.github.io/edit/source/Machine_Learning/causal_forest.md" id="edit-this-page">Edit this page on GitHub.</a>
+                  </p>
+              </div>
+          </footer>
+      </div>
+    </div>
+      <div class="search-overlay"></div>
+  </div>
+</body>
+</html>
