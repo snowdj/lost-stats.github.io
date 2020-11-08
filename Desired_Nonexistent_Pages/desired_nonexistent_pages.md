@@ -12,74 +12,76 @@ This is a manually-maintained list of pages that have been linked from elsewhere
 
 If you create one of these pages, please remove it from this list.
 
-## Causal Identification
-
-* Random Effects
-* Instrumental Variables (Two Stage Least Squares)
-* Differences in Differences
-* Regression Discontinuity Design
-* Propensity Score Matching
-* Event Study Estimation
-
 ## Data Manipulation
 
 * Aggregating Statistics
-* Collapse a Data Set
-
-## Model Estimation
-
-* Nonparametric regression
-* Generalized Method of Moments (GMM)
-* Bootstrap Standard Errors
-* Cluster Bootstrap Standard Errors
-* Treatment Effect Model
-* Endogenous Switching Model
-* Nonparametric Sample Selection Models
-* Heteroskedasticity-Robust Standard Errors
-* Jackknife Standard Errors
-* Tobit
-* Average Marginal Effects
-* Marginal Effects at the Mean
-* Conditional Logit
-* Mixed Logit
-* Nested Logit
-* Hierarchical Bayes Conditional Logit
-* Hierarchical Linear Models
-* Cluster-robust Standard Errors
-* Ordered Probit
-* Ordered Logit
 
 ## Geo-Spatial
 
-* Geo-coding
 * Handling Raster Data
 * Handling Vector Data
-* Spatial Joins
 * Spatial Regression Model
 
+## Model Estimation
+
+### OLS
+
+### GLS
+
+* Nonlinear Instrumental Variables Estimation
+* Nonparametric regression
+* Generalized Method of Moments (GMM)
+* Tobit
+* Ordered Probit
+* Ordered Logit
+* Conditional Logit
+* Mixed Logit
+* Nested Logit
+* Endogenous Switching Model
+* Nonparametric Sample Selection Models
+
+### Multilevel Models
+
+* Hierarchical Bayes Conditional Logit
+* Multilevel Regression with Poststratification
+* Nonlinear Mixed Effects Models
+
+### Research Design
+
+* Differences in Differences with treatment rollout (use updated methods!)
+* Propensity Score Matching
+* Event Study Estimation
+* Synethic Control Method
+
+### Statistical Inference
+
+* Average Marginal Effects
+* Marginal Effects at the Mean
+* Nonlinear hypothesis tests
+* Treatment Effect Model
+
+#### Nonstandard Errors
+
+* Cluster Bootstrap Standard Errors
+* Jackknife Standard Errors
 
 ## Machine Learning 
 
 * A-B Testing
-* Lasso
 * Artificial Neural Networks
-* Random Forest
-* Decision Trees
 * Nearest Neighbors Matching
 
 ## Presentation
 
-* Line Graph
-* Styling Line Graphs
-* Scatterplot
-* Styling Scatterplots
-* Faceted Graphs
-* Marginal Effects Plots for Discrete Variables
+### Figures
 
-## Summary Statistics
+* Marginal Effects Plots for Discrete Variables
+* Histograms
+* Graph themes
+
+### Tables
 
 * Summary Statistics by Group
-* Summary Statistics Tables
 * Cross-Tabulations
 * Correlation Matrix
 
@@ -88,9 +90,7 @@ If you create one of these pages, please remove it from this list.
 * Serial Correlation
 * Stationarity and Weak Dependence
 * Granger Causality
-* Auto-regressive Model
 * Moving Average Model
-* ARMA Model 
 * ARIMA Model 
 * ARIMAX Model
 * ARCH Model

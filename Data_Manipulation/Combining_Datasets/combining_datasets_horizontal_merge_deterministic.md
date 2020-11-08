@@ -18,9 +18,27 @@ Because we expect such identifiers to be unique to an individual (unlike many na
 
 # Also Consider
 
-- [Determine the observation level of a data set](https://lost-stats.github.io/Data_Manipulation/determine_the_observation_level_of_a_data_set.html).
+- [Determine the observation level of a data set]({{ "/Data_Manipulation/determine_the_observation_level_of_a_data_set.html" | relative_url }}).
 
 # Implementations
+
+## Python
+
+There are three main ways to join datasets horizontally in python using the `merge` function in **pandas**: one-to-one joins (e.g. two DataFrames joined on unique indexes), many-to-one joins (e.g. joining a unique index to one or more columns in a different DataFrame), and many-to-many joins (joining columns on columns). The column(s) to use as keys for the merge are specified with the `on=` keyword argument. The merges are different depending on if the merge is `inner` (use only those keys in both DataFrames), `outer` (use the cartesian product of all keys), `left` (use only keys in the left DataFrame), or `right` (use only keys in the right DataFrame). Outer joins will include entries for all possible combinations of columns. Further details can be found in the [**pandas** documentation](https://pandas.pydata.org/pandas-docs/stable/user_guide/merging.html#brief-primer-on-merge-methods-relational-algebra).
+
+```python
+import pandas as pd
+
+gdp_2018 = pd.DataFrame({'country': ['UK', 'USA', 'France'],
+                         'currency': ['GBP', 'USD', 'EUR'],
+                         'gdp_trillions': [2.1, 20.58, 2.78]})
+
+dollar_value_2018 = pd.DataFrame({'currency': ['EUR', 'GBP', 'YEN', 'USD'],
+                                  'in_dollars': [1.104, 1.256, .00926, 1]})
+
+# Perform a left merge, which discards 'YEN'
+GDPandExchange = pd.merge(gdp_2018, dollar_value_2018, how='left', on='currency')
+```
 
 ## R
 
@@ -46,7 +64,7 @@ Next we want to join together `GDP2018` and `DollarValue2018` so we can convert 
 GDPandExchange <- left_join(GDP2018, DollarValue2018)
 ```
 
-The `join` function will automatically detect that the `Currency` variable is shared in both data sets and use it to join them. Generally, you will want to be sure that the set of variables you are joining by uniquely identifies observations in at least one of the data sets you are joining. If you're not sure whether that's true, see [Determine the observation level of a data set](https://lost-stats.github.io/Data_Manipulation/determine_the_observation_level_of_a_data_set.html), or run `join` through the `safe_join` from the **pmdplyr** package.
+The `join` function will automatically detect that the `Currency` variable is shared in both data sets and use it to join them. Generally, you will want to be sure that the set of variables you are joining by uniquely identifies observations in at least one of the data sets you are joining. If you're not sure whether that's true, see [Determine the observation level of a data set]({{ "/Data_Manipulation/determine_the_observation_level_of_a_data_set.html" | relative_url }}), or run `join` through the `safe_join` from the **pmdplyr** package.
 
 ## Stata 
 

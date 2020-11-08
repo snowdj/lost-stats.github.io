@@ -16,6 +16,22 @@ When combining two datasets that collect the same information about different pe
 
 # Implementations
 
+## Python
+
+`pandas` is by far the most widely-used library for data manipulation in python. The `concat` function concatenates datasets vertically and combines datasets even if they don't contain the exact same set of variables. It's also possible to concatenate dataframes horizontally by passing the function the keyword argument `axis=1`.
+
+```python
+import pandas as pd
+
+# Load California Population data from the internet
+df_ca = pd.read_stata('http://www.stata-press.com/data/r14/capop.dta')
+df_il = pd.read_stata('http://www.stata-press.com/data/r14/ilpop.dta')
+
+# Concatenate a list of the dataframes (works on any number of dataframes)
+df = pd.concat([df_ca, df_il])
+
+```
+
 ## R
 
 There are several ways to vertically combine data sets in R, including `rbind`. We will use the **dplyr** package function `bind_rows`, which allows the two data sets to combine even if they don't contain the exact same set of variables.
@@ -44,7 +60,7 @@ webuse http://www.stata-press.com/data/r14/capop.dta // Import data from the web
 
 append using http://www.stata-press.com/data/r14/ilpop.dta // Merge on Illinois population data from the web 
 ```
-You can also append multiple datasets at once, by simple listing both datasets separated by a space: 
+You can also append multiple datasets at once, by simply listing both datasets separated by a space: 
 
 ```stata
 * Load California Population data
